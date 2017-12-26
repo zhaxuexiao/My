@@ -198,9 +198,9 @@
             android:layout_weight="1"
             android:paddingTop="@dimen/activtty_pad"
             android:paddingBottom="@dimen/activtty_pad"
+            android:textColor="@color/pressed_color"
             android:background="@drawable/pressed"
-
             />
-
+        <!--android:background="@drawable/pressed"-->
     </LinearLayout>
 </LinearLayout>
