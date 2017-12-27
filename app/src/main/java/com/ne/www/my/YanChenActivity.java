@@ -33,7 +33,7 @@ public class YanChenActivity extends Activity implements View.OnClickListener {
     private Button buttonDeng;
     private Button buttonDian;
     private Button buttonC;
-
+    Operation curOperation;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,11 +71,14 @@ public class YanChenActivity extends Activity implements View.OnClickListener {
         buttonC.setOnClickListener(this);
         buttonJia.setOnClickListener(this);
         buttonDeng.setOnClickListener(this);
+        buttonJian.setOnClickListener(this);
+        buttonCheng.setOnClickListener(this);
+        buttonChu.setOnClickListener(this);
 
     }
 
     String curStr="";     //缓存首次输入信息
-    String curYun="";  //运算信息
+//    String curYun="";  //运算信息
     String lstStr="0";    //
 
     @Override
@@ -116,44 +119,118 @@ public class YanChenActivity extends Activity implements View.OnClickListener {
             lstStr = "";
             textView.setText("0");
         }else if (curId == buttonJia.getId()){
-            curYun="+";
-            int a = 0;
-            int b = 0 ;
-            try {
-                b = Integer.parseInt(curStr);
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-            try {
-                a = Integer.parseInt(lstStr);
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-//            lstStr=curStr;
-            a=a+b;
-            lstStr = a+"";
+            lstStr = equalResult(curOperation,lstStr,curStr)+"";
+            curOperation = Operation.addition;
             curStr="";
             textView.setText(lstStr);
         }else if (curId == buttonDeng.getId()){
-//            lstStr
-//                    int a = (int)lstStr+(int)curStr;
-            int a = 0;
-            int b= 0 ;
-            try {
-                 b = Integer.parseInt(curStr);
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-            try {
-                a = Integer.parseInt(lstStr);
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-            int c = a+b;
-            lstStr = c+"";
-            curStr = "0";
+            lstStr = equalResult(curOperation,lstStr,curStr)+"";
+            curStr = "";
+            textView.setText(lstStr);
+            curOperation = Operation.equalResult;
+        }else if (curId == buttonJian.getId()){
+            //点击运算按钮的时候；需要先完成上一次的运算
+            lstStr = equalResult(curOperation,lstStr,curStr)+"";
+            curOperation = Operation.subtraction;
+            curStr="";
+            textView.setText(lstStr);
+        }else if (curId == buttonCheng.getId()){
+            lstStr = equalResult(curOperation,lstStr,curStr)+"";
+            curOperation = Operation.multiplication;
+            curStr="";
+            textView.setText(lstStr);
+        }else if (curId == buttonChu.getId()){
+            lstStr = equalResult(curOperation,lstStr,curStr)+"";
+            curOperation = Operation.division;
+            curStr="";
             textView.setText(lstStr);
         }
     }
 
+    /**
+     * 加法运算
+     */
+    private int addition(int a,int b){
+        return a+b;
+    }
+
+    /**
+     * 减法运算
+     */
+    private int subtraction(int a,int b){
+
+        return a-b;
+    }
+
+    /**
+     * 乘法运算
+     */
+    private int multiplication(int a,int b){
+
+        return a*b;
+    }
+
+    /**
+     * 除法运算
+     */
+    private int division(int a,int b){
+
+        return a/b;
+    }
+
+    /**
+     * 等于的结果
+     */
+    private int equalResult(Operation operation,String aStr,String bStr){
+
+        int a = 0;
+        int b = 0;
+        try {
+            a = Integer.parseInt(aStr);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        try {
+            b = Integer.parseInt(bStr);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        if(operation == null || operation == Operation.equalResult){
+            if(a == 0) {
+                return b;
+            }
+            return a;
+        }
+        int result = 0;
+        switch (operation){
+            case addition:{
+                result = addition(a,b);
+                break;
+            }
+            case subtraction:{
+                result =  subtraction(a,b);
+                break;
+            }
+            case multiplication:{
+                result = multiplication(a,b);
+                break;
+            }
+            case division:{
+                result = division(a,b);
+                break;
+            }
+        }
+        return result;
+    }
+
+    /**
+     * 枚举的运算类型
+     */
+    enum Operation{
+        addition,
+        subtraction,
+        multiplication,
+        division,
+        equalResult
+    }
 }
