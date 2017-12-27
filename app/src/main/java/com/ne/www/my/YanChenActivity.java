@@ -3,17 +3,20 @@ package com.ne.www.my;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * Created by 27687 on 2017/12/21.
  */
 
 public class YanChenActivity extends Activity implements View.OnClickListener {
+    private static final String TAG = "YanChenActivity";
     private EditText editText;
     private TextView textView;
     private Button button1;
@@ -74,11 +77,10 @@ public class YanChenActivity extends Activity implements View.OnClickListener {
         buttonJian.setOnClickListener(this);
         buttonCheng.setOnClickListener(this);
         buttonChu.setOnClickListener(this);
-
+        buttonDian.setOnClickListener(this);
     }
 
     String curStr="";     //缓存首次输入信息
-//    String curYun="";  //运算信息
     String lstStr="0";    //
 
     @Override
@@ -114,7 +116,16 @@ public class YanChenActivity extends Activity implements View.OnClickListener {
         }else if(curId == button0.getId()){
             curStr+="0";
             textView.setText(curStr);
-        } else if(curId == buttonC.getId()){
+        }else if(curId == buttonDian.getId()){
+            if(curStr.contains(".")){
+                Log.e(TAG,"已经存在小数点了；不能再添加了");
+                Toast.makeText(this, "无效的小数点", Toast.LENGTH_SHORT).show();
+            }else {
+                curStr += ".";
+            }
+            textView.setText(curStr);
+        }
+        else if(curId == buttonC.getId()){
             curStr="";
             lstStr = "";
             textView.setText("0");
@@ -150,14 +161,14 @@ public class YanChenActivity extends Activity implements View.OnClickListener {
     /**
      * 加法运算
      */
-    private int addition(int a,int b){
+    private double addition(double a,double b){
         return a+b;
     }
 
     /**
      * 减法运算
      */
-    private int subtraction(int a,int b){
+    private double subtraction(double a,double b){
 
         return a-b;
     }
@@ -165,7 +176,7 @@ public class YanChenActivity extends Activity implements View.OnClickListener {
     /**
      * 乘法运算
      */
-    private int multiplication(int a,int b){
+    private double multiplication(double a,double b){
 
         return a*b;
     }
@@ -173,7 +184,7 @@ public class YanChenActivity extends Activity implements View.OnClickListener {
     /**
      * 除法运算
      */
-    private int division(int a,int b){
+    private double division(double a,double b){
 
         return a/b;
     }
@@ -181,27 +192,40 @@ public class YanChenActivity extends Activity implements View.OnClickListener {
     /**
      * 等于的结果
      */
-    private int equalResult(Operation operation,String aStr,String bStr){
+    private String equalResult(Operation operation,String aStr,String bStr){
 
-        int a = 0;
-        int b = 0;
-        try {
-            a = Integer.parseInt(aStr);
-        }catch (Exception e){
-            e.printStackTrace();
+        double a = 0;
+        double b = 0;
+        if(!TextUtils.isEmpty(aStr)) {
+            try {
+                a = Double.parseDouble(aStr);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
-        try {
-            b = Integer.parseInt(bStr);
-        }catch (Exception e){
-            e.printStackTrace();
+        if(!TextUtils.isEmpty(bStr)) {
+            try {
+                b = Double.parseDouble(bStr);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
+        int resultInt;//转换判断结果是否为整数类型用的；
         if(operation == null || operation == Operation.equalResult){
             if(a == 0) {
-                return b;
+                resultInt = (int)b;
+                if((b - resultInt)==0){
+                    return resultInt+"";//结果为整数；
+                }
+                return b+"";
             }
-            return a;
+            resultInt = (int)a;
+            if((a - resultInt)==0){
+                return resultInt+"";//结果为整数；
+            }
+            return a+"";
         }
-        int result = 0;
+        double result = 0;
         switch (operation){
             case addition:{
                 result = addition(a,b);
@@ -220,7 +244,11 @@ public class YanChenActivity extends Activity implements View.OnClickListener {
                 break;
             }
         }
-        return result;
+        resultInt = (int)result;
+        if((result - resultInt)==0){
+            return resultInt+"";//结果为整数；
+        }
+        return result+"";//结果有小数点
     }
 
     /**
