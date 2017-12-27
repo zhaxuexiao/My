@@ -60,7 +60,7 @@ public class YanChenActivity extends Activity implements View.OnClickListener {
         buttonDian = (Button) findViewById(R.id.buttonDian);
         buttonDeng = (Button) findViewById(R.id.buttonDeng);
         buttonC = (Button) findViewById(R.id.buttonC);
-        button1.setOnClickListener(this);
+        button1.setOnClickListener(this);  //监听
         button2.setOnClickListener(this);
         button3.setOnClickListener(this);
         button4.setOnClickListener(this);
@@ -81,10 +81,10 @@ public class YanChenActivity extends Activity implements View.OnClickListener {
     }
 
     String curStr="";     //缓存首次输入信息
-    String lstStr="0";    //
+    String lstStr="0";    //显示结果
 
     @Override
-    public void onClick(View v) {
+    public void onClick(View v) {  //点击事件回调方法
         int curId = v.getId();
         if(curId == button1.getId()) {
             curStr+="1";
@@ -121,7 +121,11 @@ public class YanChenActivity extends Activity implements View.OnClickListener {
                 Log.e(TAG,"已经存在小数点了；不能再添加了");
                 Toast.makeText(this, "无效的小数点", Toast.LENGTH_SHORT).show();
             }else {
-                curStr += ".";
+                if(TextUtils.isEmpty(curStr)){
+                    curStr += "0.";
+                }else {
+                    curStr += ".";
+                }
             }
             textView.setText(curStr);
         }
@@ -129,6 +133,7 @@ public class YanChenActivity extends Activity implements View.OnClickListener {
             curStr="";
             lstStr = "";
             textView.setText("0");
+            curOperation = null;
         }else if (curId == buttonJia.getId()){
             lstStr = equalResult(curOperation,lstStr,curStr)+"";
             curOperation = Operation.addition;
@@ -186,6 +191,9 @@ public class YanChenActivity extends Activity implements View.OnClickListener {
      */
     private double division(double a,double b){
 
+        if(b==0){
+            return 0;
+        }
         return a/b;
     }
 
@@ -198,9 +206,9 @@ public class YanChenActivity extends Activity implements View.OnClickListener {
         double b = 0;
         if(!TextUtils.isEmpty(aStr)) {
             try {
-                a = Double.parseDouble(aStr);
-            } catch (Exception e) {
-                e.printStackTrace();
+                a = Double.parseDouble(aStr); //Double对象 调用方法
+            } catch (Exception e) { //转换失败，异常捕获
+                e.printStackTrace();//打印异常信息
             }
         }
         if(!TextUtils.isEmpty(bStr)) {
