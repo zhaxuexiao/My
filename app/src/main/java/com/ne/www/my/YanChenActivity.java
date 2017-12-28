@@ -17,7 +17,6 @@ import android.widget.Toast;
 
 public class YanChenActivity extends Activity implements View.OnClickListener {
     private static final String TAG = "YanChenActivity";
-    private EditText editText;
     private TextView textView;
     private Button button1;
     private Button button2;
@@ -41,7 +40,6 @@ public class YanChenActivity extends Activity implements View.OnClickListener {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_yanchen);
-        editText = (EditText) findViewById(R.id.edit_text);
         textView = (TextView) findViewById(R.id.text_view);
         button1 = (Button) findViewById(R.id.button1);
         button2 = (Button) findViewById(R.id.button2);
@@ -167,6 +165,7 @@ public class YanChenActivity extends Activity implements View.OnClickListener {
      * 加法运算
      */
     private double addition(double a,double b){
+
         return a+b;
     }
 

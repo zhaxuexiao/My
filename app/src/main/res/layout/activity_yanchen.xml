@@ -10,11 +10,13 @@
         />  //visibility gone 隐藏
     <TextView
         android:id="@+id/text_view"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="hello world"
         android:textSize="40sp"
         android:paddingTop="10dp"
+        android:singleLine="true"
+        android:maxLength="16"
         />
     <LinearLayout
        android:layout_width="match_parent"
@@ -31,6 +33,7 @@
         android:paddingTop="@dimen/activtty_pad"
         android:paddingBottom="@dimen/activtty_pad"
         />
+
     <Button
         android:id="@+id/button2"
         android:layout_width="wrap_content"
