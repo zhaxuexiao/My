@@ -7,9 +7,10 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.math.BigDecimal;
 
 /**
  * Created by 27687 on 2017/12/21.
@@ -165,24 +166,30 @@ public class YanChenActivity extends Activity implements View.OnClickListener {
      * 加法运算
      */
     private double addition(double a,double b){
-
-        return a+b;
+        BigDecimal bigDecimalA = new BigDecimal(Double.toString(a));
+        BigDecimal bigDecimalB = new BigDecimal(Double.toString(b));
+        double c = bigDecimalA.add(bigDecimalB).doubleValue();
+        return c;
     }
 
     /**
      * 减法运算
      */
     private double subtraction(double a,double b){
-
-        return a-b;
+        BigDecimal bigDecimalA = new BigDecimal(Double.toString(a));
+        BigDecimal bigDecimalB = new BigDecimal(Double.toString(b));
+        double c = bigDecimalA.subtract(bigDecimalB).doubleValue();
+        return c;
     }
 
     /**
      * 乘法运算
      */
     private double multiplication(double a,double b){
-
-        return a*b;
+        BigDecimal bigDecimalA = new BigDecimal(Double.toString(a));
+        BigDecimal bigDecimalB = new BigDecimal(Double.toString(b));
+        double c = bigDecimalA.multiply(bigDecimalB).doubleValue();
+        return c;
     }
 
     /**
@@ -193,7 +200,10 @@ public class YanChenActivity extends Activity implements View.OnClickListener {
         if(b==0){
             return 0;
         }
-        return a/b;
+        BigDecimal bigDecimalA = new BigDecimal(Double.toString(a));
+        BigDecimal bigDecimalB = new BigDecimal(Double.toString(b));
+        double c = bigDecimalA.divide(bigDecimalB).doubleValue();
+        return c;
     }
 
     /**
